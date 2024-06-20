@@ -1,4 +1,4 @@
-import { Doc } from "./render.js";
+import { Doc } from "render.js";
 
 const inputElement = document.getElementById("fileElem");
 inputElement.addEventListener("change", handleFiles, false);
