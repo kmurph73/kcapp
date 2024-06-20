@@ -1,0 +1,14 @@
+{
+  "type": "module",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
+  "scripts": {
+    "serve": "http-server app",
+    "build": "node build.js && npm run buildjs",
+    "buildjs": "esbuild app/index.js --bundle --outfile=dist/index.js"
+  },
+  "devDependencies": {
+    "esbuild": "0.21.5"
+  }
+}

@@ -1,4 +1,4 @@
-import { Doc } from "render.js";
+import { Doc } from "./render.js";
 
 const inputElement = document.getElementById("fileElem");
 inputElement.addEventListener("change", handleFiles, false);
@@ -8,6 +8,7 @@ export function handleFiles(e) {
 
   fileList[0].name;
   const reader = new FileReader()
+
   reader.onload = (e) => {
     const json = JSON.parse(e.target.result);
 
