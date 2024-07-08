@@ -57,13 +57,17 @@
     </div>`;
   }
   function renderShape(shape, n) {
+    const statements = shape.statement_templates || shape.statement_constraints;
     return `
     <div class="shapeDiv">
       <div class="shapeProperty">${shape.shapeLabel}</div>
 
-      <div class="statementDiv">
-        ${shape.statement_templates.map(renderStatement).join("")}
-      </div>
+      ${statements && statements.length > 0 ? `
+        <div class="statementDiv">
+          ${statements.map(renderStatement).join("")}
+        </div>
+        ` : ""}
+      
     </div>
   `;
   }
@@ -81,7 +85,13 @@
     fileList[0].name;
     const reader = new FileReader();
     reader.onload = (e2) => {
-      const json = JSON.parse(e2.target.result);
+      let json;
+      try {
+        json = JSON.parse(e2.target.result);
+      } catch (error) {
+        alert("couldnt parse json document");
+        return;
+      }
       let html = Doc(json);
       const ele = document.getElementById("doc");
       ele.innerHTML = html;
