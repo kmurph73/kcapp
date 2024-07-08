@@ -62,13 +62,18 @@ function renderStatement(stmt) {
 }
 
 function renderShape(shape, n) {
+  const statements = shape.statement_templates || shape.statement_constraints;
+
   return `
     <div class="shapeDiv">
       <div class="shapeProperty">${shape.shapeLabel}</div>
 
-      <div class="statementDiv">
-        ${shape.statement_templates.map(renderStatement).join('')}
-      </div>
+      ${statements && statements.length > 0 ? `
+        <div class="statementDiv">
+          ${statements.map(renderStatement).join('')}
+        </div>
+        ` : '' }
+      
     </div>
   `;
 }

@@ -2,6 +2,7 @@ import { Doc } from "./render.js";
 
 const inputElement = document.getElementById("fileElem");
 inputElement.addEventListener("change", handleFiles, false);
+
 export function handleFiles(e) {
   const fileList = this.files;
   // const text = reader.readAsText(fileList[0]);
@@ -10,7 +11,14 @@ export function handleFiles(e) {
   const reader = new FileReader()
 
   reader.onload = (e) => {
-    const json = JSON.parse(e.target.result);
+    let json;
+
+    try {
+      json = JSON.parse(e.target.result);
+    } catch (error) {
+      alert("couldnt parse json document");
+      return;
+    }
 
     let html = Doc(json);
     // console.log(html);
