@@ -1,4 +1,4 @@
-import { Doc } from "./render.js";
+import { Body, Doc } from "./render.js";
 
 const inputElement = document.getElementById("fileElem");
 inputElement.addEventListener("change", handleFiles, false);
@@ -20,14 +20,15 @@ export function handleFiles(e) {
       return;
     }
 
-    let html = Doc(json);
+    const body = Body(json);
     // console.log(html);
     const ele = document.getElementById("doc");
-    ele.innerHTML = html;
+    ele.innerHTML = body;
 
     // const btn = document.getElementById("download_btn");
     // add texts as a href of <a> element after encoding.
 
+    const html = Doc(body);
     const a = document.getElementById("download");
     a.setAttribute('href', 'data:text/html;charset=utf-8, '+ encodeURIComponent(html));
     a.setAttribute('download', "doc");

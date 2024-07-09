@@ -3,12 +3,9 @@ const layout = `
 <html>
   <head>
     <style>
-      td {
-        margin: 25px;
-      }
       .shapeDiv {
         margin-top: 5px;
-        border-style: solid;
+        border-style: groove;
         border-width: 2px;
         width: 100%;
       }
@@ -16,16 +13,24 @@ const layout = `
         padding-left: 50px;
         width: 100%;
       }
-      .property {
+      .value {
         font-weight: bold;
         margin-left: 25px;
       }
-      .value {
-        margin-left: 100 px;
+      .property {
+        margin-left: 20px;
+      }
+      .label {
+        font-weight: bold;
       }
       .shapeProperty {
         font-weight: bold;
-        border-bottom-style: dotted;
+        border-bottom-style: dashed;
+        font-size: large;
+      }
+      .wrapper {
+        display: grid;
+        grid-template-columns: 150px 600px;
       }
     </style>
     <title></title>
@@ -37,26 +42,29 @@ const layout = `
 </html>
 `;
 
+const keysToIgnore = ["propertyID", "propertyLabel"];
+
 function renderStatement(stmt) {
   const entries = Object.entries(stmt);
-  const keysToIgnore = ["propertyID", "propertyLabel"];
 
   return (
 		`
-    <div>
-      <span class="property">${stmt.propertyID}</span>
+    <div class="wrapper">
       <span class="label" style="margin-left: 5px">
-        (${stmt.propertyLabel})
+        ${stmt.propertyLabel}
       </span>
-      <ul>
-        ${entries.map(([k, v]) =>
-          keysToIgnore.includes(k) ? null : (
-            `<li>
-              <i>${k}</i> "${v}"
-            </li>`
-          )
-        ).join('')}
-      </ul>
+      <span class="property">
+        (${stmt.propertyID})
+        <ul>
+          ${entries.map(([k, v]) =>
+            keysToIgnore.includes(k) ? null : (
+              `<li>
+                <i>${k}</i> "${v}"
+              </li>`
+            )
+          ).join('')}
+        </ul>
+      </span>
     </div>`
   );
 }
@@ -77,10 +85,12 @@ function renderShape(shape, n) {
     </div>
   `;
 }
+export function Body({ shapes }) {
+  return `<div>${shapes.map((s, i) => renderShape(s, i + 1)).join('')}</div>`;
+}
 
-export function Doc({ shapes }) {
+export function Doc(body) {
   const [start, end] = layout.split("{}");
-  const body = `<div>${shapes.map((s, i) => renderShape(s, i + 1)).join('')}</div>`;
 
   return [start, body, end].join('');
 }
